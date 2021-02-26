@@ -13,7 +13,7 @@ resource "azurerm_resource_group" "myresourcegroup" {
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "${var.prefix}-vnet"
-  location            = azurerm_resource_group.myresourcegroup.location
+  location           x = azurerm_resource_group.myresourcegroup.location
   address_space       = [var.address_space]
   resource_group_name = azurerm_resource_group.myresourcegroup.name
 }
@@ -94,7 +94,10 @@ resource "azurerm_virtual_machine" "catapp" {
   location            = var.location
   resource_group_name = azurerm_resource_group.myresourcegroup.name
   vm_size             = var.vm_size
-  department          = "devops"
+  tags = {
+      Department          = "devops"
+  }
+
 
   network_interface_ids         = [azurerm_network_interface.catapp-nic.id]
   delete_os_disk_on_termination = "true"
